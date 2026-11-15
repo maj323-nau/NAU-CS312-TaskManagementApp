@@ -14,8 +14,9 @@ A web app where a team can create tasks, assign them to each other, and track pr
 |-------------------|-----------|
 | Know what we're building and why | `docs/` (project proposal PDF) |
 | See what the screens should look like | `docs/` (mock-ups) |
-| Know what to work on next | "What to do next" below |
+| Set up your local database | `docs/Local_Database_Setup_Guide.pdf` |
 | Check or fix your Node.js / PostgreSQL versions | "Versions we're using" below |
+| Know what to work on next | "What to do next" below |
 | Find the database tables | `database/` |
 | Find the backend code or the list of API endpoints | `server/` |
 | Find the React code | `client/` |
@@ -27,7 +28,7 @@ A web app where a team can create tasks, assign them to each other, and track pr
 client/      React frontend (what users see)
 server/      Express backend (the API)
 database/    SQL files for the database
-docs/        Proposal and mock-ups
+docs/        Proposal, mock-ups, and the database setup guide
 ```
 
 ## Where we are right now
@@ -35,18 +36,22 @@ docs/        Proposal and mock-ups
 - [x] Proposal done
 - [x] GitHub repo set up and teammates invited
 - [x] Versions chosen (Node.js 24, PostgreSQL 18)
-- [ ] Everyone has Node.js 24 and PostgreSQL 18 installed
-- [ ] Everyone can clone and push
+- [x] Local database setup guide added to `docs/`
+- [x] Mark: Node.js 24, PostgreSQL 18, and the `taskdb` database are set up
+- [ ] Rique: Node.js 24, PostgreSQL 18, and `taskdb` set up
+- [ ] Anna: Node.js 24, PostgreSQL 18, and `taskdb` set up
+- [ ] Everyone has cloned the repo
 - [ ] Database schema written
 - [ ] Server set up
 - [ ] React app set up
 
 ## What to do next
 
-**Everyone first:**
+**Rique and Anna first:**
 1. Accept the GitHub invite and clone the repo
-2. Install Node.js 24 and PostgreSQL 18 (see below) and check your versions
-3. Create a local database called `taskdb` and make sure you can connect to it
+2. Follow `docs/Local_Database_Setup_Guide.pdf` to install PostgreSQL 18 and create the `taskdb` database
+3. Install Node.js 24 and check your versions (see below)
+4. Check the box with your name in "Where we are right now"
 
 **Then:**
 
@@ -88,13 +93,8 @@ Only the first number matters. `24.19.0` and `24.11.0` are both fine.
 
 - **Node version isn't 24:** download the LTS version from nodejs.org, or use a version manager like `nvm` (Mac/Linux) or `nvm-windows` / `fnm` (Windows). Close and reopen your terminal afterward.
 - **`node` or `npm` "not recognized":** close and reopen your terminal first. If it still fails, reinstall Node from nodejs.org.
-- **`psql` "not recognized" (Windows):** PostgreSQL is probably installed, but its folder isn't on your PATH. Check which version you have with:
-  ```
-  Get-ChildItem "C:\Program Files\PostgreSQL"
-  ```
-  The folder name is your version number. To make `psql` work everywhere, add `C:\Program Files\PostgreSQL\18\bin` to your **Path** user variable (search "environment variables" in the Windows menu, select **Path**, click **Edit**, then **New**), then reopen PowerShell.
-- **Can't connect to the database:** make sure the PostgreSQL service is running. On Windows, run `Get-Service *postgres*` and look for **Running**.
-- **PostgreSQL isn't installed:** download version 18 from postgresql.org, keep the default port 5432, and write down the password you set for the `postgres` user.
+- **`psql` "not recognized" (Windows):** PostgreSQL is probably installed, but its folder isn't on your PATH. The steps to fix it are in `docs/Local_Database_Setup_Guide.pdf` (Step 2).
+- **Can't connect to the database:** make sure the PostgreSQL service is running. On Windows, run `Get-Service *postgres*` and look for **Running**. More help is in the setup guide.
 
 If you're on a different version and can't change it, tell the group what you have so we can figure it out together.
 
