@@ -15,9 +15,10 @@ A web app where a team can create tasks, assign them to each other, and track pr
 | Know what we're building and why | `docs/` (project proposal PDF) |
 | See what the screens should look like | `docs/` (mock-ups) |
 | Set up your local database | `docs/Local_Database_Setup_Guide.pdf` |
+| Understand the database tables and why they look the way they do | `docs/Database_Schema_Guide.pdf` |
+| See the actual database code | `database/schema.sql` |
 | Check or fix your Node.js / PostgreSQL versions | "Versions we're using" below |
 | Know what to work on next | "What to do next" below |
-| Find the database tables | `database/` |
 | Find the backend code or the list of API endpoints | `server/` |
 | Find the React code | `client/` |
 | Still stuck | Ask in the group chat |
@@ -27,8 +28,8 @@ A web app where a team can create tasks, assign them to each other, and track pr
 ```
 client/      React frontend (what users see)
 server/      Express backend (the API)
-database/    SQL files for the database
-docs/        Proposal, mock-ups, and the database setup guide
+database/    SQL files for the database (schema.sql)
+docs/        Proposal, mock-ups, and our setup/schema guides
 ```
 
 ## Where we are right now
@@ -38,28 +39,34 @@ docs/        Proposal, mock-ups, and the database setup guide
 - [x] Versions chosen (Node.js 24, PostgreSQL 18)
 - [x] Local database setup guide added to `docs/`
 - [x] Mark: Node.js 24, PostgreSQL 18, and the `taskdb` database are set up
+- [x] First draft of the database schema written (`database/schema.sql`) and tested on Mark's machine
+- [x] Schema guide written for the team to review (`docs/Database_Schema_Guide.pdf`)
+- [ ] Team reviews the schema and agrees on the status and priority values
 - [ ] Rique: Node.js 24, PostgreSQL 18, and `taskdb` set up
 - [ ] Anna: Node.js 24, PostgreSQL 18, and `taskdb` set up
-- [ ] Everyone has cloned the repo
-- [ ] Database schema written
+- [ ] Everyone has run `schema.sql` on their local database
+- [ ] API endpoints agreed on
 - [ ] Server set up
 - [ ] React app set up
 
 ## What to do next
 
-**Rique and Anna first:**
-1. Accept the GitHub invite and clone the repo
-2. Follow `docs/Local_Database_Setup_Guide.pdf` to install PostgreSQL 18 and create the `taskdb` database
-3. Install Node.js 24 and check your versions (see below)
-4. Check the box with your name in "Where we are right now"
+**Everyone, this week:**
+1. Read `docs/Database_Schema_Guide.pdf` and come to the schema discussion ready to decide the questions in section 9
+2. Rique and Anna: clone the repo, follow `docs/Local_Database_Setup_Guide.pdf` to install PostgreSQL 18 and create `taskdb`, and install Node.js 24
+3. Once the team agrees on the schema, run it on your own machine:
+   ```
+   psql -U postgres -d taskdb -f database/schema.sql
+   ```
+4. Check your box in "Where we are right now"
 
 **Then:**
 
-- **Rique (database):** write `database/schema.sql` with a `users` table and a `tasks` table, add some sample data, and tell the group when it's ready to review
-- **Anna (tasks / CRUD):** set up the Express server in `server/` with a connection to the database, then build create, view, edit, and delete for tasks
-- **Mark (assigning tasks):** set up the React app in `client/` (use Vite), then build assigning tasks to users and updating task status
+- **Server and CRUD (Anna):** set up the Express server in `server/` with a connection to the database, then build create, view, edit, and delete for tasks
+- **React app:** set up the app in `client/` (use Vite), then build the task list and the assignment and status features
+- **Database follow-up:** write the queries to sort, prioritize, and track tasks, and keep the schema file up to date
 
-(Anna and Mark can swap the server and React setup if they want.)
+**Who does what is being finalized.** Mark wrote the first schema draft, and the team is deciding how to split the database work and the assignment/collaboration work. We'll update this section once it's settled. Each person's original task list is in the project proposal in `docs/`.
 
 ## Versions we're using
 
@@ -95,8 +102,18 @@ Only the first number matters. `24.19.0` and `24.11.0` are both fine.
 - **`node` or `npm` "not recognized":** close and reopen your terminal first. If it still fails, reinstall Node from nodejs.org.
 - **`psql` "not recognized" (Windows):** PostgreSQL is probably installed, but its folder isn't on your PATH. The steps to fix it are in `docs/Local_Database_Setup_Guide.pdf` (Step 2).
 - **Can't connect to the database:** make sure the PostgreSQL service is running. On Windows, run `Get-Service *postgres*` and look for **Running**. More help is in the setup guide.
+- **`schema.sql` says "No such file or directory":** you're probably not in the repo folder. Use `cd` to go to the folder where you cloned the repo, then run the command again.
 
 If you're on a different version and can't change it, tell the group what you have so we can figure it out together.
+
+## How we change the database
+
+Don't edit tables by hand in psql or pgAdmin. Instead:
+1. Edit `database/schema.sql`
+2. Rerun it on your machine (this **erases and rebuilds** the tables and puts the sample data back)
+3. Commit and push, then tell the group to pull and rerun it
+
+That keeps everyone's database identical.
 
 ## Decisions we've made
 
@@ -107,5 +124,3 @@ If you're on a different version and can't change it, tell the group what you ha
 
 - **Phase 1:** database, basic task CRUD, assigning tasks, tracking status
 - **Phase 2:** connect everything together, add CSS styling, test and fix bugs
-
-Each person's full task list is in the project proposal in `docs/`.
