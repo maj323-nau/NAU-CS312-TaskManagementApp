@@ -52,7 +52,7 @@ docs/        Proposal, mock-ups, and our setup/schema guides
 ## What to do next
 
 **Everyone, this week:**
-1. Read `docs/Database_Schema_Guide.pdf` and come to the schema discussion ready to decide the questions in section 9
+1. Skim read `docs/Database_Schema_Guide.pdf` just to understand the Schema.
 2. Rique and Anna: clone the repo, follow `docs/Local_Database_Setup_Guide.pdf` to install PostgreSQL 18 and create `taskdb`, and install Node.js 24
 3. Once the team agrees on the schema, run it on your own machine:
    ```
