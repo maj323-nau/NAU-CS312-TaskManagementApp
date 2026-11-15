@@ -1,136 +1,74 @@
 # Task Management Application
 
-**CS 312 Group Project, Northern Arizona University**
-School of Informatics, Computing, and Cyber Systems
+CS 312 group project at Northern Arizona University.
 
-## Team
+**Team:** Rique Trujillo Yazzie, Anna Cheatham, Mark Johnson
 
-| Name | Email | Focus Area |
-|------|-------|------------|
-| Rique Trujillo Yazzie | rty7@nau.edu | Database design and PostgreSQL integration |
-| Anna Cheatham | alc984@nau.edu | Task CRUD operations and frontend integration |
-| Mark Johnson | maj323@nau.edu | Task assignment and collaboration features |
+## What is this project?
 
-## Project Overview
+A web app where a team can create tasks, assign them to each other, and track progress. We're building it with the PERN stack: **P**ostgreSQL, **E**xpress, **R**eact, **N**ode.
 
-Many individuals and teams struggle to manage tasks and projects efficiently, which leads to missed deadlines and lower productivity. Our project is a web-based task management application that lets users create, organize, prioritize, and track tasks in a collaborative environment.
+## Lost? Start here
 
-### Tech Stack (PERN)
+| If you want to... | Look here |
+|-------------------|-----------|
+| Know what we're building and why | `docs/` (project proposal PDF) |
+| See what the screens should look like | `docs/` (mock-ups) |
+| Know what to work on next | "What to do next" below |
+| Find the database tables | `database/` |
+| Find the backend code or the list of API endpoints | `server/` |
+| Find the React code | `client/` |
+| Still stuck | Ask in the group chat |
 
-- **PostgreSQL**: relational database for tasks and users
-- **Express.js**: REST API layer
-- **React**: frontend user interface (built with Vite)
-- **Node.js**: server runtime
+## Where things are
 
-## Planned Features
+```
+client/      React frontend (what users see)
+server/      Express backend (the API)
+database/    SQL files for the database
+docs/        Proposal and mock-ups
+```
 
-- **CRUD operations**: create, view, edit, and delete tasks with a title, description, due date, priority, status, and assigned user
-- **Collaboration**: assign tasks to team members and track progress and completion status
-- **Filtering and sorting**: filter by status, priority, and due date; sort by due date, priority, and assigned user
-- **Dashboard analytics**: task totals, completed, overdue, and upcoming deadlines, plus per-user stats
-- **User accounts**: login and registration
+## Where we are right now
 
-## Project Phases
+- [x] Proposal done
+- [x] GitHub repo set up and teammates invited
+- [ ] Everyone can clone and push
+- [ ] Everyone has Node.js and PostgreSQL installed
+- [ ] Database schema written
+- [ ] Server set up
+- [ ] React app set up
 
-### Phase 1: Backend Foundation
-- Design the database schema and create the `users` and `tasks` tables
-- Define the relationship between users and tasks
-- Build basic CRUD operations for tasks
-- Implement task assignment and status tracking
-- Write database queries to organize, prioritize, and track tasks
+## What to do next
 
-### Phase 2: Integration and Polish
-- Connect all components to the PostgreSQL database and the website
-- Wire CRUD, assignment, and status updates into the React frontend
-- Add input validation and error handling
-- Apply CSS styling across the site
-- Test and debug so all features work together
-
-## Design Decisions
-
-- **Updates:** the app will use **refresh on action** at first: after a user creates, edits, deletes, assigns, or changes the status of a task, the frontend re-fetches the task list. **Polling** (re-fetching on a timer) may be added later once the core features work. We are **not** using WebSockets.
-- **Frontend data loading:** the React app loads tasks through a single function (e.g. `fetchTasks()`) so that polling can be added later with minimal changes.
-
-## Requirements
-
-Everyone must use the same major versions. To be confirmed by the team:
-
-| Tool | Version |
-|------|---------|
-| Node.js | LTS (exact major version TBD) |
-| PostgreSQL | TBD |
-
-## Current Status
-
-**Status: Setup complete, development starting**
-
-- [x] Project proposal completed
-- [x] Task responsibilities divided among team members
-- [x] Mock-up screens drafted (login/register, main task list, create task, team analytics)
-- [x] GitHub repository created and folder structure in place
-- [x] Collaborator invites sent
-- [x] Root README added
-- [ ] All teammates have accepted invites and can push
-- [ ] Node.js and PostgreSQL versions agreed on
-- [ ] Local development environments set up
-- [ ] Database schema committed
-- [ ] Express server scaffolded
-- [ ] React client scaffolded
-- [ ] API endpoints agreed on
-
-## First Tasks
-
-Everyone starts with environment setup (see below). After that, each member's first deliverable is:
-
-### Everyone
+**Everyone first:**
 1. Accept the GitHub invite, clone the repo, and push a small test change
 2. Install Node.js (LTS) and PostgreSQL, and post your versions in the group chat
-3. Create a local database (same name for everyone, e.g. `taskdb`) and confirm you can connect
+3. Create a local database called `taskdb` and make sure you can connect to it
 
-### Rique Trujillo Yazzie: Database
-1. Write `database/schema.sql` with the `users` table and the `tasks` table (title, description, due date, priority, status, assigned user as a foreign key to `users`)
-2. Add seed data so everyone can test against the same rows
-3. Write `database/README.md` with setup steps and a short description of the tables
-4. Ask Anna and Mark to review the schema before they build on it
+**Then:**
 
-### Anna Cheatham: Server and CRUD
-1. Scaffold the Express app in `server/` with a health-check route and a PostgreSQL connection (`pg` package), and merge it as soon as it runs
-2. Draft the endpoint list (`GET /tasks`, `POST /tasks`, `PUT /tasks/:id`, `DELETE /tasks/:id`) in `server/README.md`
-3. Build the create and view task routes once the schema is merged, then edit and delete
+- **Rique (database):** write `database/schema.sql` with a `users` table and a `tasks` table, add some sample data, and tell the group when it's ready to review
+- **Anna (tasks / CRUD):** set up the Express server in `server/` with a connection to the database, then build create, view, edit, and delete for tasks
+- **Mark (assigning tasks):** set up the React app in `client/` (use Vite), then build assigning tasks to users and updating task status
 
-### Mark Johnson: Client and Assignment
-1. Scaffold the React app (Vite) in `client/` and confirm it can call the server's health-check route, then merge it
-2. Add an endpoint for assigning a task to a user and one for updating a task's status, and add them to the endpoint list in `server/README.md`
-3. Build a basic task list view that shows each task's assigned user and status, loading data through a single `fetchTasks()` function
+(Anna and Mark can swap the server and React setup if they want.)
 
-*Scaffold assignments (server and client) are proposed to spread early work evenly and can be swapped if the team prefers.*
+## Decisions we've made
 
-## Next Steps After the First Tasks
+- The page will **refresh the task list after every action** (create, edit, delete, assign, status change). We may add polling later. We are **not** using WebSockets.
+- Not working on these yet: Git workflow rules, login/register, filtering and sorting, dashboard.
 
-1. Finish Phase 1: CRUD routes, assignment, status tracking, and the organizing/prioritizing queries
-2. Connect the React frontend to the API and refresh data after every action
-3. Begin Phase 2: validation, error handling, CSS styling, testing and debugging
-4. Add polling if time allows
+## Project phases
 
-## Deferred for Now
+- **Phase 1:** database, basic task CRUD, assigning tasks, tracking status
+- **Phase 2:** connect everything together, add CSS styling, test and fix bugs
 
-These are on the project list but are not being worked on yet: Git workflow rules, authentication (login/register), filtering and sorting, and dashboard analytics.
+Each person's full task list is in the project proposal in `docs/`.
 
-## Repository Structure
+## Versions we're using
 
-```
-.
-├── client/      # React frontend
-├── server/      # Express and Node.js backend
-├── database/    # SQL schema, migrations, seed data
-├── docs/        # Proposal, mock-ups, diagrams
-└── README.md
-```
+Everyone should use the same versions. Fill these in once we agree:
 
-## Getting Started
-
-Setup instructions will be added as the development environment is finalized.
-
-## Documentation
-
-The project proposal and mock-up screens are in the [`docs/`](docs/) folder.
+- Node.js: ____
+- PostgreSQL: ____
