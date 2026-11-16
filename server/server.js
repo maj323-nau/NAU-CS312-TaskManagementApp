@@ -51,52 +51,61 @@ app.put('/api/tasks/:id/assignment', async (req, res) => {
 app.put('/api/tasks/:id', async (req, res) => {
   const { id } = req.params;
 
-  const {
-    title,
-    description,
-    due_date,
-    priority,
-    status,
-    assigned_user_id
-  } = req.body;
+  const allowedFields = [
+    'title',
+    'description',
+    'due_date',
+    'priority',
+    'status',
+    'assigned_user_id'
+  ];
+
+  const updates = [];
+  const values = [];
+
+  for (const field of allowedFields) {
+    if (Object.hasOwn(req.body, field)) {
+        let value = req.body[field];
+
+        if (field === 'due_date' && value === '') value = null;
+        if (field === 'description' && value === '') value = null;
+        
+        values.push(req.body[field]);
+        updates.push(`${field} = $${values.length}`);
+    }
+  }
+
+  if (updates.length === 0) {
+    return res.status(400).json({
+        error: 'No fields provided to update'
+    });
+  }
 
   try {
+    values.push(id);
+
     const result = await pool.query(
-      `UPDATE tasks
-       SET
-         title = COALESCE($1, title),
-         description = COALESCE($2, description),
-         due_date = COALESCE($3, due_date),
-         priority = COALESCE($4, priority),
-         status = COALESCE($5, status),
-         assigned_user_id = $6,
-         updated_at = NOW()
-       WHERE id = $7
-       RETURNING *`,
-      [
-        title ?? null,
-        description ?? null,
-        due_date ?? null,
-        priority ?? null,
-        status ?? null,
-        assigned_user_id === undefined
-          ? (await pool.query(
-              'SELECT assigned_user_id FROM tasks WHERE id = $1',
-              [id]
-            )).rows[0]?.assigned_user_id ?? null
-          : assigned_user_id,
-        id
-      ]
+        `UPDATE tasks
+        SET ${updates.join(', ')},
+            updated_at = NOW()
+        WHERE id = $${values.length}
+        RETURNING *`,
+        values
     );
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Task not found' });
+    if (result.rows.length === 0){
+        return res.status(404).json({
+            error: 'Task not found'
+        });
     }
 
     res.json(result.rows[0]);
   } catch (error) {
     console.error('Update task error:', error);
-    res.status(500).json({ error: 'Failed to update task' });
+
+    res.status(500).json({
+        error: 'Failed to update task'
+    });
   }
 });
 
@@ -121,6 +130,79 @@ app.get('/api/tasks', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Failed to fetch tasks' });
+    }
+});
+
+// create tasks
+app.post('/api/tasks', async (req, res) => {
+    const {
+        title,
+        description,
+        due_date,
+        priority,
+        status,
+        assigned_user_id,
+        created_by
+    } = req.body;
+
+    if (!title || !priority || !status) {
+        return res.status(400).json({
+            error: 'Title, priority, and status required.'
+        });
+    }
+
+    try {
+        const result = await pool.query(
+            `INSERT INTO tasks
+                (title, description, due_date, priority, status, assigned_user_id, created_by)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            RETURNING *`,
+            [
+                title,
+                description || null,
+                due_date || null,
+                priority,
+                status,
+                assigned_user_id ?? null,
+                created_by ?? null
+            ]
+        );
+
+        res.status(201).json(result.rows[0]);
+    } catch (error) {
+        console.error('Create taks error:', error);
+
+        res.status(500).json({
+            error: 'Failed to create task'
+        });
+    }
+});
+
+app.delete('/api/tasks/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const result = await pool.query(
+            `DELETE FROM tasks WHERE id = $1 RETURNING *`,
+            [id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                error: 'Task not found'
+            });
+        }
+
+        res.json({
+            message: 'Task deleted successfully',
+            task: result.rows[0]
+        });
+    } catch (error) {
+        console.error('Delete task error:', error);
+
+        res.status(500).json({
+            error: 'Failed to delete task'
+        });
     }
 });
 

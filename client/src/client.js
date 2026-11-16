@@ -1,5 +1,5 @@
 
-const API_URL = 'http://localhost:5000/api/tasks';
+const API_URL = '/api/tasks';
 
 export async function getTasks() {
   const response = await fetch(API_URL);
@@ -56,7 +56,7 @@ export async function deleteTask(id) {
 }
 
 export async function getUsers() {
-  const response = await fetch('http://localhost:5000/api/users');
+  const response = await fetch('/api/users');
 
   if (!response.ok) {
     throw new Error('Failed to fetch users');

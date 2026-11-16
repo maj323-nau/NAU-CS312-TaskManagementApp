@@ -74,3 +74,35 @@ header {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.task-form-section {
+  background: white;
+  padding: 24px;
+  margin: 20px, 0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-form input,
+.task-form textarea,
+.task-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.task-form textarea {
+  min-height: 80px;
+}
+
+.task-form-section h2 {
+  color: black;
+}
