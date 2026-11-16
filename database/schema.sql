@@ -59,9 +59,9 @@ INSERT INTO users (name, email) VALUES
     ('Rique Trujillo Yazzie', 'rique@example.com');
 
 INSERT INTO tasks (title, description, due_date, priority, status, assigned_user_id, created_by) VALUES
-    ('Set up database',        'Create the users and tasks tables.',        CURRENT_DATE - 2, 'high',   'completed',   3, 1),
-    ('Build task CRUD routes', 'Create, view, edit, and delete endpoints.', CURRENT_DATE + 5, 'high',   'in_progress', 2, 1),
+    ('Set up database',        'Create the users and tasks tables.',        CURRENT_DATE - 2, 'high',   'completed',   NULL, 1),
+    ('Build task CRUD routes', 'Create, view, edit, and delete endpoints.', CURRENT_DATE + 5, 'high',   'in_progress', NULL, 1),
     ('Scaffold React app',     'Create the client with Vite.',              CURRENT_DATE + 3, 'medium', 'in_progress', 1, 1),
     ('Task assignment',        'Let a task be assigned to a team member.',  CURRENT_DATE + 7, 'medium', 'open',        1, 2),
-    ('Style the task list',    'Add CSS for the main screen.',              CURRENT_DATE + 14,'low',    'open',        NULL, 2),
+    ('Style the task list',    'Add CSS for the main screen.',              CURRENT_DATE + 14,'low',    'open',        3, 2),
     ('Fix overdue example',    'Sample overdue task for dashboard tests.',  CURRENT_DATE - 5, 'medium', 'open',        2, 3);
